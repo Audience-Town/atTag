@@ -33,7 +33,96 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "TEXT",
     "name": "tagId",
-    "displayName": "Tag Id",
+    "displayName": "Publisher Account ID",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "propertyId",
+    "displayName": "Property ID Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "communityId",
+    "displayName": "Community ID Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "utmMedium",
+    "displayName": "UTM Medium Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "utmSource",
+    "displayName": "UTM Source Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "utmTerm",
+    "displayName": "UTM Term Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "utmContent",
+    "displayName": "UTM Content Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "utmCampaign",
+    "displayName": "UTM Campaign Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "urlMacro",
+    "displayName": "URL Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "rUrlMacro",
+    "displayName": "RURL Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "LABEL",
+    "name": "optionalParams",
+    "displayName": "Optional Params:"
+  },
+  {
+    "type": "TEXT",
+    "name": "p1Macro",
+    "displayName": "P1 Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "p2Macro",
+    "displayName": "P2 Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "p3Macro",
+    "displayName": "P3 Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "p4Macro",
+    "displayName": "P4 Macro",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
+    "name": "p5Macro",
+    "displayName": "P5 Macro",
     "simpleValueType": true
   }
 ]
@@ -49,14 +138,26 @@ const generateRandom = require('generateRandom');
 
 // Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
-var tagId = data.tagId;
+var tagId = encodeUriComponent(data.tagId);
+var propertyId = encodeUriComponent(data.propertyId);
+var communityId = encodeUriComponent(data.communityId);
+var utmMedium = encodeUriComponent(data.utmMedium);
+var utmSource = encodeUriComponent(data.utmSource);
+var utmTerm = encodeUriComponent(data.utmTerm);
+var utmContent = encodeUriComponent(data.utmContent);
+var utmCampaign = encodeUriComponent(data.utmCampaign);
+var urlMacro = encodeUriComponent(data.urlMacro);
+var rUrlMacro = encodeUriComponent(data.rUrlMacro);
+var p1Macro = encodeUriComponent(data.p1Macro || '');
+var p2Macro = encodeUriComponent(data.p2Macro || '');
+var p3Macro = encodeUriComponent(data.p3Macro || '');
+var p4Macro = encodeUriComponent(data.p4Macro || '');
+var p5Macro = encodeUriComponent(data.p5Macro || '');
+
+var query = '?che = ' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '& p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
 
 // Define the tracking URLs
-var urls = [
-    '//ttag.io?tg=' + encodeUriComponent(tagId) + '&cb=' + cacheBust,
-    '//di.rlcdn.com/406006.gif?pdata=partner%3Dtap375121%2Cdata%3Dtype%3Asite%24audience%3ASite_K_KHovnanianHouston_CypressPoint',
-    '//d.agkn.com/pixel/12517/?che=' + cacheBust + '&paid=' + encodeUriComponent(tagId)
-];
+var urls = ['//ttag.io' + query, '//d.agkn.com/iframe/12517/' + query];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
@@ -137,6 +238,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 06/01/2024, 00:00:45
+Created on 10/01/2024, 00:21:29
 
 
