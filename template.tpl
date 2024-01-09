@@ -26,7 +26,6 @@ ___INFO___
   ]
 }
 
-
 ___TEMPLATE_PARAMETERS___
 
 [
@@ -87,7 +86,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "TEXT",
     "name": "rUrlMacro",
-    "displayName": "RURL Macro",
+    "displayName": "Referring URL Macro",
     "simpleValueType": true
   },
   {
@@ -157,7 +156,7 @@ var p5Macro = encodeUriComponent(data.p5Macro || '');
 var query = '?che = ' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '& p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
 
 // Define the tracking URLs
-var urls = ['//ttag.io' + query, '//d.agkn.com/iframe/12517/' + query];
+var urls = ['//ttag.io/gtm' + query, '//d.agkn.com/iframe/12517' + query];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
@@ -172,7 +171,7 @@ function processUrls(urls, tagId) {
 
 // Custom function to handle errors
 function logError(error, tagId) {
-    var errorSrc = '//ttag.io/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
+    var errorSrc = '//ttag.io/gtm/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
     sendPixel(errorSrc, function () {
         logToConsole('Error logged: ' + error);
     });
@@ -238,6 +237,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 10/01/2024, 00:21:29
+Created on 10/01/2024, 02:47:43
 
 
