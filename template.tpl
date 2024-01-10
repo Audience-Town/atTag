@@ -171,7 +171,7 @@ function processUrls(urls, tagId) {
 
 // Custom function to handle errors
 function logError(error, tagId) {
-    var errorSrc = '//ttag.io/gtm/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
+    var errorSrc = '//ttag.io/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
     sendPixel(errorSrc, function () {
         logToConsole('Error logged: ' + error);
     });
@@ -237,6 +237,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 10/01/2024, 02:47:43
+Created on 10/01/2024, 21:23:13
 
 
