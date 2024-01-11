@@ -30,99 +30,134 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "type": "TEXT",
-    "name": "tagId",
-    "displayName": "Publisher Account ID",
-    "simpleValueType": true
+    "type": "LABEL",
+    "name": "atParams",
+    "displayName": "AudienceTown Variables"
   },
   {
     "type": "TEXT",
-    "name": "propertyId",
-    "displayName": "Property ID Macro",
-    "simpleValueType": true
+    "name": "tagId",
+    "displayName": "Tag ID",
+    "simpleValueType": true,
+    "help": "This is a required field to to link tag implementation to the Audience Town platform experience. In your Audience Town platform seat, retrieve the relevant Tag ID from the Tags page found in the Set-up nav and paste to this field.",
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ]
+  },
+  {
+    "type": "LABEL",
+    "name": "DataLayerParams",
+    "displayName": "Data layer parameters to leverage existing GTM implementations"
   },
   {
     "type": "TEXT",
     "name": "communityId",
-    "displayName": "Community ID Macro",
-    "simpleValueType": true
+    "displayName": "Community ID",
+    "simpleValueType": true,
+    "help": "Optional: Community ID is a data layer variable used to identify the community or development entity on your web site."
+  },
+  {
+    "type": "TEXT",
+    "name": "propertyId",
+    "displayName": "Property ID",
+    "simpleValueType": true,
+    "help": "Optional: Property ID is a data layer variable which may be used to identify individual property listings."
+  },
+  {
+    "type": "LABEL",
+    "name": "urlParams",
+    "displayName": "URL Parameters"
+  },
+  {
+    "type": "TEXT",
+    "name": "page_url",
+    "simpleValueType": true,
+    "defaultValue": "{{Page URL}}",
+    "displayName": "Page URL"
+  },
+  {
+    "type": "TEXT",
+    "name": "ref_url",
+    "displayName": "Referring URL",
+    "simpleValueType": true,
+    "defaultValue": "{{Referrer}}"
+  },
+  {
+    "type": "LABEL",
+    "name": "utmParams",
+    "displayName": "UTM Parameters"
   },
   {
     "type": "TEXT",
     "name": "utmMedium",
-    "displayName": "UTM Medium Macro",
+    "displayName": "UTM Medium",
     "simpleValueType": true
   },
   {
     "type": "TEXT",
     "name": "utmSource",
-    "displayName": "UTM Source Macro",
+    "displayName": "UTM Source",
     "simpleValueType": true
   },
   {
     "type": "TEXT",
     "name": "utmTerm",
-    "displayName": "UTM Term Macro",
+    "displayName": "UTM Term",
     "simpleValueType": true
   },
   {
     "type": "TEXT",
     "name": "utmContent",
-    "displayName": "UTM Content Macro",
+    "displayName": "UTM Content",
     "simpleValueType": true
   },
   {
     "type": "TEXT",
     "name": "utmCampaign",
-    "displayName": "UTM Campaign Macro",
-    "simpleValueType": true
-  },
-  {
-    "type": "TEXT",
-    "name": "urlMacro",
-    "displayName": "URL Macro",
-    "simpleValueType": true
-  },
-  {
-    "type": "TEXT",
-    "name": "rUrlMacro",
-    "displayName": "Referring URL Macro",
+    "displayName": "UTM Campaign",
     "simpleValueType": true
   },
   {
     "type": "LABEL",
     "name": "optionalParams",
-    "displayName": "Optional Params:"
+    "displayName": "Optional Data:"
   },
   {
     "type": "TEXT",
-    "name": "p1Macro",
-    "displayName": "P1 Macro",
-    "simpleValueType": true
+    "name": "p1",
+    "displayName": "Parameter 1",
+    "simpleValueType": true,
+    "help": "Optional: User-defined parameter"
   },
   {
     "type": "TEXT",
-    "name": "p2Macro",
-    "displayName": "P2 Macro",
-    "simpleValueType": true
+    "name": "p2",
+    "displayName": "Parameter 2",
+    "simpleValueType": true,
+    "help": "Optional: User-defined parameter"
   },
   {
     "type": "TEXT",
-    "name": "p3Macro",
-    "displayName": "P3 Macro",
-    "simpleValueType": true
+    "name": "p3",
+    "displayName": "Parameter 3",
+    "simpleValueType": true,
+    "help": "Optional: User-defined parameter"
   },
   {
     "type": "TEXT",
-    "name": "p4Macro",
-    "displayName": "P4 Macro",
-    "simpleValueType": true
+    "name": "p4",
+    "displayName": "Parameter 4",
+    "simpleValueType": true,
+    "help": "Optional: User-defined parameter"
   },
   {
     "type": "TEXT",
-    "name": "p5Macro",
-    "displayName": "P5 Macro",
-    "simpleValueType": true
+    "name": "p5",
+    "displayName": "Parameter 5",
+    "simpleValueType": true,
+    "help": "Optional: User-defined parameter"
   }
 ]
 
@@ -138,25 +173,25 @@ const generateRandom = require('generateRandom');
 // Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
 var tagId = encodeUriComponent(data.tagId);
-var propertyId = encodeUriComponent(data.propertyId);
-var communityId = encodeUriComponent(data.communityId);
-var utmMedium = encodeUriComponent(data.utmMedium);
-var utmSource = encodeUriComponent(data.utmSource);
-var utmTerm = encodeUriComponent(data.utmTerm);
-var utmContent = encodeUriComponent(data.utmContent);
-var utmCampaign = encodeUriComponent(data.utmCampaign);
-var urlMacro = encodeUriComponent(data.urlMacro);
-var rUrlMacro = encodeUriComponent(data.rUrlMacro);
-var p1Macro = encodeUriComponent(data.p1Macro || '');
-var p2Macro = encodeUriComponent(data.p2Macro || '');
-var p3Macro = encodeUriComponent(data.p3Macro || '');
-var p4Macro = encodeUriComponent(data.p4Macro || '');
-var p5Macro = encodeUriComponent(data.p5Macro || '');
+var propertyId = encodeUriComponent(data.propertyId || '');
+var communityId = encodeUriComponent(data.communityId || '');
+var utmMedium = encodeUriComponent(data.utmMedium || '');
+var utmSource = encodeUriComponent(data.utmSource || '');
+var utmTerm = encodeUriComponent(data.utmTerm || '');
+var utmContent = encodeUriComponent(data.utmContent || '');
+var utmCampaign = encodeUriComponent(data.utmCampaign || '');
+var urlMacro = encodeUriComponent(data.page_url || '');
+var rUrlMacro = encodeUriComponent(data.ref_url || '');
+var p1Macro = encodeUriComponent(data.p1 || '');
+var p2Macro = encodeUriComponent(data.p2 || '');
+var p3Macro = encodeUriComponent(data.p3 || '');
+var p4Macro = encodeUriComponent(data.p4 || '');
+var p5Macro = encodeUriComponent(data.p5 || '');
 
-var query = '?che = ' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '& p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
+var query = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
 
 // Define the tracking URLs
-var urls = ['//ttag.io/gtm' + query, '//d.agkn.com/iframe/12517' + query];
+var urls = ['//ttag.io/gtm' + query, '//d.agkn.com/pixel/12517/' + query];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
@@ -237,6 +272,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 10/01/2024, 21:23:13
+Created on 11/01/2024, 20:40:41
 
 
