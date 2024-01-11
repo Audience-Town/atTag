@@ -1,5 +1,5 @@
 homepage: "https://www.audiencetown.com"
-documentation: "https://www.audiencetown.com/solutions/audience-segments"
+documentation: "https://www.audiencetown.com/gtm-template"
 versions:
-  - sha: 209d53be0b5259abefa3bc9bc88e7b9ee810d30b
+  - sha: 0542d873bc02d0bde4bd27f94cc9740ff8a3350c
     changeNotes: Initial version.
