@@ -39,7 +39,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "tagId",
     "displayName": "Tag ID",
     "simpleValueType": true,
-    "help": "This is a required field to to link tag implementation to the Audience Town platform experience. In your Audience Town platform seat, retrieve the relevant Tag ID from the Tags page found in the Set-up nav and paste to this field.",
+    "help": "This is a required field to link tag implementation to the Audience Town platform experience. In your Audience Town platform seat, retrieve the relevant Tag ID from the Tags page found in the Set-up nav and paste to this field.",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
@@ -49,7 +49,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "DataLayerParams",
-    "displayName": "Data layer parameters to leverage existing GTM implementations"
+    "displayName": "Data Layer Parameters (leverage existing GTM implementations)"
   },
   {
     "type": "TEXT",
@@ -64,25 +64,6 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Property ID",
     "simpleValueType": true,
     "help": "Optional: Property ID is a data layer variable which may be used to identify individual property listings."
-  },
-  {
-    "type": "LABEL",
-    "name": "urlParams",
-    "displayName": "URL Parameters"
-  },
-  {
-    "type": "TEXT",
-    "name": "page_url",
-    "simpleValueType": true,
-    "defaultValue": "{{Page URL}}",
-    "displayName": "Page URL"
-  },
-  {
-    "type": "TEXT",
-    "name": "ref_url",
-    "displayName": "Referring URL",
-    "simpleValueType": true,
-    "defaultValue": "{{Referrer}}"
   },
   {
     "type": "LABEL",
@@ -169,6 +150,9 @@ const logToConsole = require('logToConsole');
 const encodeUriComponent = require('encodeUriComponent');
 const sendPixel = require('sendPixel');
 const generateRandom = require('generateRandom');
+const getReferrerUrl = require("getReferrerUrl");
+const getUrl = require("getUrl");
+
 
 // Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
@@ -180,8 +164,8 @@ var utmSource = encodeUriComponent(data.utmSource || '');
 var utmTerm = encodeUriComponent(data.utmTerm || '');
 var utmContent = encodeUriComponent(data.utmContent || '');
 var utmCampaign = encodeUriComponent(data.utmCampaign || '');
-var urlMacro = encodeUriComponent(data.page_url || '');
-var rUrlMacro = encodeUriComponent(data.ref_url || '');
+var urlMacro = getUrl();
+var rUrlMacro = getReferrerUrl();
 var p1Macro = encodeUriComponent(data.p1 || '');
 var p2Macro = encodeUriComponent(data.p2 || '');
 var p3Macro = encodeUriComponent(data.p3 || '');
@@ -261,6 +245,56 @@ ___WEB_PERMISSIONS___
       "isEditedByUser": true
     },
     "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_referrer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_url",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
+    },
+    "isRequired": true
   }
 ]
 
@@ -272,6 +306,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 11/01/2024, 20:40:41
+Created on 1/26/2024, 3:44:38 AM
 
 
