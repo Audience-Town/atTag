@@ -84,12 +84,6 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "TEXT",
-    "name": "utmTerm",
-    "displayName": "UTM Term",
-    "simpleValueType": true
-  },
-  {
-    "type": "TEXT",
     "name": "utmContent",
     "displayName": "UTM Content",
     "simpleValueType": true
@@ -152,6 +146,7 @@ const sendPixel = require('sendPixel');
 const generateRandom = require('generateRandom');
 const getReferrerUrl = require("getReferrerUrl");
 const getUrl = require("getUrl");
+const copyFromDataLayer = require("copyFromDataLayer");
 
 
 // Generate a unique cache-busting number using GTM's generateRandom API
@@ -161,7 +156,7 @@ var propertyId = encodeUriComponent(data.propertyId || '');
 var communityId = encodeUriComponent(data.communityId || '');
 var utmMedium = encodeUriComponent(data.utmMedium || '');
 var utmSource = encodeUriComponent(data.utmSource || '');
-var utmTerm = encodeUriComponent(data.utmTerm || '');
+var utmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign');
 var utmContent = encodeUriComponent(data.utmContent || '');
 var utmCampaign = encodeUriComponent(data.utmCampaign || '');
 var urlMacro = getUrl();
@@ -295,6 +290,27 @@ ___WEB_PERMISSIONS___
       ]
     },
     "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "read_data_layer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "allowedKeys",
+          "value": {
+            "type": 1,
+            "string": "any"
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
   }
 ]
 
@@ -306,6 +322,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 1/26/2024, 3:44:38 AM
+Created on 2/3/2024, 12:47:29 AM
 
 
