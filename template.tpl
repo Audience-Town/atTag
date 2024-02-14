@@ -1,12 +1,4 @@
-﻿___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-
-___INFO___
+﻿___INFO___
 
 {
   "type": "TAG",
@@ -84,6 +76,12 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "TEXT",
+    "name": "utmTerm",
+    "displayName": "UTM Term",
+    "simpleValueType": true
+  },
+  {
+    "type": "TEXT",
     "name": "utmContent",
     "displayName": "UTM Content",
     "simpleValueType": true
@@ -156,7 +154,7 @@ var propertyId = encodeUriComponent(data.propertyId || '');
 var communityId = encodeUriComponent(data.communityId || '');
 var utmMedium = encodeUriComponent(data.utmMedium || '');
 var utmSource = encodeUriComponent(data.utmSource || '');
-var utmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign');
+var utmTerm = encodeUriComponent(data.utmTerm || '');
 var utmContent = encodeUriComponent(data.utmContent || '');
 var utmCampaign = encodeUriComponent(data.utmCampaign || '');
 var urlMacro = getUrl();
@@ -167,10 +165,15 @@ var p3Macro = encodeUriComponent(data.p3 || '');
 var p4Macro = encodeUriComponent(data.p4 || '');
 var p5Macro = encodeUriComponent(data.p5 || '');
 
+var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign');
+
+
 var query = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
 
+var altQuery = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + altUtmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
+
 // Define the tracking URLs
-var urls = ['//ttag.io/gtm' + query, '//d.agkn.com/pixel/12517/' + query];
+var urls = ['//ttag.io/gtm' + altQuery, '//d.agkn.com/pixel/12517/' + query];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
@@ -322,6 +325,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 2/3/2024, 12:47:29 AM
+Created on 1/26/2024, 3:44:38 AM
 
 
