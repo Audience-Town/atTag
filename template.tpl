@@ -165,7 +165,7 @@ var p3Macro = encodeUriComponent(data.p3 || '');
 var p4Macro = encodeUriComponent(data.p4 || '');
 var p5Macro = encodeUriComponent(data.p5 || '');
 
-var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign');
+var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign') + '_$$$_' + copyFromDataLayer('utm_term');
 
 
 var query = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
