@@ -139,6 +139,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 // GTM Template APIs
 const logToConsole = require('logToConsole');
+const encodeUri = require('encodeUri');
 const encodeUriComponent = require('encodeUriComponent');
 const sendPixel = require('sendPixel');
 const generateRandom = require('generateRandom');
@@ -157,8 +158,8 @@ var utmSource = encodeUriComponent(data.utmSource || '');
 var utmTerm = encodeUriComponent(data.utmTerm || '');
 var utmContent = encodeUriComponent(data.utmContent || '');
 var utmCampaign = encodeUriComponent(data.utmCampaign || '');
-var urlMacro = encodeUriComponent(getUrl() || '');
-var rUrlMacro = encodeUriComponent(getReferrerUrl() || '');
+var urlMacro = encodeUri(getUrl() || '');
+var rUrlMacro = encodeUri(getReferrerUrl() || '');
 var p1Macro = encodeUriComponent(data.p1 || '');
 var p2Macro = encodeUriComponent(data.p2 || '');
 var p3Macro = encodeUriComponent(data.p3 || '');
