@@ -157,10 +157,13 @@ const generateRandom = require('generateRandom');
 const getReferrerUrl = require("getReferrerUrl");
 const getUrl = require("getUrl");
 const copyFromDataLayer = require("copyFromDataLayer");
-
+const setCookie = require('setCookie');
+const getCookie = require('getCookieValues');
 
 // Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
+var audtwn_id = getCookie('audtwn_id');
+var tagVersion = '1.5.0';
 var tagId = encodeUriComponent(data.tagId);
 var propertyId = encodeUriComponent(data.propertyId || '');
 var communityId = encodeUriComponent(data.communityId || '');
@@ -177,33 +180,38 @@ var p3Macro = encodeUriComponent(data.p3 || '');
 var p4Macro = encodeUriComponent(data.p4 || '');
 var p5Macro = encodeUriComponent(data.p5 || '');
 
+if (audtwn_id == '' || audtwn_id == null) {
+  audtwn_id = tagId.substring(0, 6) + '_' + generateRandom(1, 999999999999);
+  setCookie('audtwn_id', audtwn_id);
+}
+
 var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign') + '_$$$_' + copyFromDataLayer('utm_term');
 
 
-var query = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
+var partner_qs = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + utmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
 
-var altQuery = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + altUtmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro;
+var audtwn_qs = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + altUtmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro + '&tagv=' + tagVersion + '&atc=' + audtwn_id;
 
 // Define the tracking URLs
-var urls = ['//ttag.io/gtm' + altQuery, '//d.agkn.com/pixel/12517/' + query];
+var urls = ['//ttag.io/gtm' + audtwn_qs, '//d.agkn.com/pixel/12517/' + partner_qs, '//pixel.tapad.com/idsync/ex/receive?partner_id=3525&partner_device_id=' + audtwn_id + '&partner_url=' + encodeUriComponent('https://ttag.io/sync?atid=' + audtwn_id + '&expid=${TA_DEVICE_ID}')];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
-    urls.forEach(function (url) {
-        sendPixel(url, function () {
-            logToConsole('Pixel sent: ' + url);
-        }, function () {
-            logError('Error sending pixel: ' + url, tagId);
-        });
+  urls.forEach(function (url) {
+    sendPixel(url, function () {
+      logToConsole('Analytics Success: ' + url);
+    }, function () {
+      logError('Analytics Error [send]: ' + url, tagId);
     });
+  });
 }
 
 // Custom function to handle errors
 function logError(error, tagId) {
-    var errorSrc = '//ttag.io/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
-    sendPixel(errorSrc, function () {
-        logToConsole('Error logged: ' + error);
-    });
+  var errorSrc = '//ttag.io/error_log?tg=' + encodeUriComponent(tagId) + '&err=' + encodeUriComponent(error);
+  sendPixel(errorSrc, function () {
+    logToConsole('Analytics Error [logged]: ' + error);
+  });
 }
 
 // Execute URL processing
@@ -279,6 +287,9 @@ ___WEB_PERMISSIONS___
         }
       ]
     },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
     "isRequired": true
   },
   {
@@ -304,6 +315,9 @@ ___WEB_PERMISSIONS___
         }
       ]
     },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
     "isRequired": true
   },
   {
@@ -318,6 +332,108 @@ ___WEB_PERMISSIONS___
           "value": {
             "type": 1,
             "string": "any"
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "set_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "allowedCookies",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "name"
+                  },
+                  {
+                    "type": 1,
+                    "string": "domain"
+                  },
+                  {
+                    "type": 1,
+                    "string": "path"
+                  },
+                  {
+                    "type": 1,
+                    "string": "secure"
+                  },
+                  {
+                    "type": 1,
+                    "string": "session"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "audtwn_id"
+                  },
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "any"
+                  },
+                  {
+                    "type": 1,
+                    "string": "any"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "cookieAccess",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "cookieNames",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "audtwn_id"
+              }
+            ]
           }
         }
       ]

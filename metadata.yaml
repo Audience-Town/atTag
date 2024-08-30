@@ -1,7 +1,10 @@
 homepage: "https://www.audiencetown.com"
 documentation: "https://www.audiencetown.com/gtm-template"
 versions:
-  # v.1.0.1 (latest)
+  # v.1.0.2 (latest)
+  - sha: 1b0e50df80899be751a74685ca08869248cf0511
+    changeNotes: "Update version & AudienceTown ID"
+  # v.1.0.1
   - sha: c598381ec44e85ab26ca41705d4e8fd7fcbdcbe8
     changeNotes: "GTM Template name & description update"
   # v.1.0.0 (initial)
