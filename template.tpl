@@ -163,7 +163,7 @@ const getCookie = require('getCookieValues');
 // Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
 var audtwn_id = getCookie('audtwn_id');
-var tagVersion = '1.5.0';
+var tagVersion = '1.5.5';
 var tagId = encodeUriComponent(data.tagId);
 var propertyId = encodeUriComponent(data.propertyId || '');
 var communityId = encodeUriComponent(data.communityId || '');
@@ -182,7 +182,7 @@ var p5Macro = encodeUriComponent(data.p5 || '');
 
 if (audtwn_id == '' || audtwn_id == null) {
   audtwn_id = tagId.substring(0, 6) + '_' + generateRandom(1, 999999999999);
-  setCookie('audtwn_id', audtwn_id);
+  setCookie('audtwn_id', audtwn_id, {'max-age': 400*24*60*60 });
 }
 
 var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign') + '_$$$_' + copyFromDataLayer('utm_term');
