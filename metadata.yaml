@@ -2,7 +2,7 @@ homepage: "https://www.audiencetown.com"
 documentation: "https://www.audiencetown.com/gtm-template"
 versions:
   # v.1.5.5 (latest)
-  - sha: b0ca51e5a6edd690cad2e07183a051bdd28b3c44
+  - sha: a0cf7ea470ecc19f9648652233dec22e87b118e3
     changeNotes: "Align versions & set max-age"
   # v.1.0.2
   - sha: 1b0e50df80899be751a74685ca08869248cf0511
