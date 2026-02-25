@@ -148,7 +148,6 @@ ___TEMPLATE_PARAMETERS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-// GTM Template APIs
 const logToConsole = require('logToConsole');
 const encodeUri = require('encodeUri');
 const encodeUriComponent = require('encodeUriComponent');
@@ -160,10 +159,8 @@ const copyFromDataLayer = require("copyFromDataLayer");
 const setCookie = require('setCookie');
 const getCookie = require('getCookieValues');
 
-// Generate a unique cache-busting number using GTM's generateRandom API
 var cacheBust = generateRandom(1, 9999999999);
-var audtwn_id = getCookie('audtwn_id');
-var tagVersion = '1.5.5';
+var tagVersion = '1.7.0';
 var tagId = encodeUriComponent(data.tagId);
 var propertyId = encodeUriComponent(data.propertyId || '');
 var communityId = encodeUriComponent(data.communityId || '');
@@ -172,17 +169,24 @@ var utmSource = encodeUriComponent(data.utmSource || '');
 var utmTerm = encodeUriComponent(data.utmTerm || '');
 var utmContent = encodeUriComponent(data.utmContent || '');
 var utmCampaign = encodeUriComponent(data.utmCampaign || '');
-var urlMacro = encodeUri(getUrl() || '');
-var rUrlMacro = encodeUri(getReferrerUrl() || '');
+var urlMacro = encodeUriComponent(getUrl() || '');
+var rUrlMacro = encodeUriComponent(getReferrerUrl() || '');
 var p1Macro = encodeUriComponent(data.p1 || '');
 var p2Macro = encodeUriComponent(data.p2 || '');
 var p3Macro = encodeUriComponent(data.p3 || '');
 var p4Macro = encodeUriComponent(data.p4 || '');
 var p5Macro = encodeUriComponent(data.p5 || '');
 
-if (audtwn_id == '' || audtwn_id == null) {
+var audtwnVals = getCookie('audtwn_id');
+var audtwn_id = (audtwnVals && audtwnVals.length) ? audtwnVals[0] : null;
+
+if (!audtwn_id) {
   audtwn_id = tagId.substring(0, 6) + '_' + generateRandom(1, 999999999999);
-  setCookie('audtwn_id', audtwn_id, {'max-age': 400*24*60*60 });
+  setCookie('audtwn_id', audtwn_id, {
+    'max-age': 400 * 24 * 60 * 60,
+    'path': '/',
+    'domain': 'auto'
+  });
 }
 
 var altUtmTerm = copyFromDataLayer('utm_source') + '_$$$_' + copyFromDataLayer('utm_medium') + '_$$$_' + copyFromDataLayer('utm_content') + '_$$$_' + copyFromDataLayer('utm_campaign') + '_$$$_' + copyFromDataLayer('utm_term');
@@ -193,7 +197,7 @@ var partner_qs = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId 
 var audtwn_qs = '?che=' + cacheBust + '&paid=' + tagId + '&ppid=' + propertyId + '&cmid=' + communityId + '&utm_medium=' + utmMedium + '&utm_source=' + utmSource + '&utm_term=' + altUtmTerm + '&utm_content=' + utmContent + '&utm_campaign=' + utmCampaign + '&url=' + urlMacro + '&rurl=' + rUrlMacro + '&p1=' + p1Macro + '&p2=' + p2Macro + '&p3=' + p3Macro + '&p4=' + p4Macro + '&p5=' + p5Macro + '&tagv=' + tagVersion + '&atc=' + audtwn_id;
 
 // Define the tracking URLs
-var urls = ['//ttag.io/gtm' + audtwn_qs, '//d.agkn.com/pixel/12517/' + partner_qs, '//pixel.tapad.com/idsync/ex/receive?partner_id=3525&partner_device_id=' + audtwn_id + '&partner_url=' + encodeUriComponent('https://ttag.io/sync?atid=' + audtwn_id + '&expid=${TA_DEVICE_ID}')];
+var urls = ['//ttag.io/gtm' + audtwn_qs, '//pixel.tapad.com/idsync/ex/receive?partner_id=3525&partner_device_id=' + audtwn_id + '&partner_url=' + encodeUriComponent('https://ttag.io/sync?atid=' + audtwn_id + '&expid=${TA_DEVICE_ID}')];
 
 // Function to handle sending pixels and error logging
 function processUrls(urls, tagId) {
