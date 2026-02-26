@@ -1,7 +1,10 @@
 homepage: "https://www.audiencetown.com"
-documentation: "https://www.audiencetown.com/gtm-template"
+documentation: "https://info.audiencetown.com/hubfs/HowtoInstallAT_TagviaGTM.pdf"
 versions:
-  # v.1.5.5 (latest)
+  # v.1.7.0 (latest)
+  - sha: 530426cdaf60b43db55bf3f140ce0f539b65acdf
+    changeNotes: "Update version, user_id issue and url encoding fixes"
+  # v.1.5.5
   - sha: a0cf7ea470ecc19f9648652233dec22e87b118e3
     changeNotes: "Align versions & set max-age"
   # v.1.0.2
